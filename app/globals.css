@@ -27,28 +27,33 @@
   }
 }
 
-
 .glass-card {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .glass-input {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
 }
 
-.gradient-bg {
-  background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%);
+.glass-input:focus {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
-.gradient-input-menu{
-  backdrop-filter: blur(10px);
-    /* Adds the blur effect */
-    background: linear-gradient(135deg, rgba(255, 87, 34, 0.3), rgba(63, 81, 181, 0.3));
-    /* Gradient */
+button,
+a {
+  transition: all 0.2s ease;
 }
 
+/* Remove the gradient background as we now have image backgrounds */

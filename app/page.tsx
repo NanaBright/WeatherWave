@@ -8,6 +8,8 @@ import { DailyQuote } from '@/components/daily-quote';
 import { WEATHER_API_URL, WEATHER_API_KEY } from '@/app/api';
 import { UserMenu } from '@/components/user-menu';
 import { MusicPlayer } from '@/components/music-player';
+import { BackgroundSlider } from "@/components/background-slider"
+
 
 export default function Home() {
   const [currentWeather, setCurrentWeather] = useState<any>(null);
@@ -38,7 +40,9 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen gradient-bg p-4 py-8">
+    <>
+    <BackgroundSlider />
+      <main className="min-h-screen p-4 py-8 relative">
       <div className="container mx-auto flex gap-4">
         {/* Main Content (shifted to the left) */}
         <div className="flex-grow max-w-4xl mx-auto">
@@ -111,5 +115,6 @@ export default function Home() {
         </aside>
       </div>
     </main>
+    </>
   );
 }
