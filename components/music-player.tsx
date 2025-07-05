@@ -25,31 +25,55 @@ export function MusicPlayer() {
     const [uploadedSong, setUploadedSong] = useState<File | null>(null)
     const audioRef = useRef<HTMLAudioElement>(null)
 
-    // Fetch tracks from Audiomack API
+    // Enhanced music search with multiple sources and local files
     const fetchTracks = async (query: string) => {
-        const settings = {
-            method: 'GET',
-            headers: {
-                'x-rapidapi-key': 'd53da96f6dmshd0e2d2972d46669p151095jsn4fd3cefd227d',
-                'x-rapidapi-host': 'audiomack-scraper.p.rapidapi.com',
-            },
-        };
-
         try {
-            const response = await fetch(
-                `https://audiomack-scraper.p.rapidapi.com/audiomack/search/albums?query=${query}`,
-                settings
+            // First try to search for free music on Archive.org
+            const archiveResponse = await fetch(
+                `https://archive.org/advancedsearch.php?q=title:(${encodeURIComponent(query)})%20AND%20mediatype:audio&fl=identifier,title,creator&rows=10&page=1&output=json`
             );
-            const data = await response.json();
-            const fetchedTracks = data.albums.map((album: any) => ({
-                title: album.title,
-                artist: album.artist,
-                audioUrl: album.audioUrl, // Assume audioUrl is available
-            }));
-            setSearchResults(fetchedTracks);
+            
+            if (archiveResponse.ok) {
+                const archiveData = await archiveResponse.json();
+                const archiveTracks = archiveData.response.docs.map((item: any) => ({
+                    title: item.title || 'Unknown Title',
+                    artist: item.creator || 'Unknown Artist',
+                    audioUrl: `https://archive.org/download/${item.identifier}/${item.identifier}.mp3`,
+                    source: 'Archive.org'
+                }));
+                
+                if (archiveTracks.length > 0) {
+                    setSearchResults(archiveTracks);
+                    return;
+                }
+            }
         } catch (error) {
-            console.error('Error fetching Audiomack tracks:', error);
+            console.error('Error fetching from Archive.org:', error);
         }
+
+        // Fallback to demo tracks
+        const demoTracks = [
+            {
+                title: `Demo Song - ${query}`,
+                artist: 'WeatherWave Demo',
+                audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
+                source: 'Demo'
+            },
+            {
+                title: 'Relaxing Rain Sounds',
+                artist: 'Nature Collection',
+                audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
+                source: 'Demo'
+            },
+            {
+                title: 'Thunder Ambience',
+                artist: 'Weather Sounds',
+                audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
+                source: 'Demo'
+            }
+        ];
+        
+        setSearchResults(demoTracks);
     };
 
     const togglePlay = () => {

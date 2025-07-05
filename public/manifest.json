@@ -1,0 +1,58 @@
+{
+  "name": "WeatherWave",
+  "short_name": "WeatherWave",
+  "description": "Beautiful weather app with music integration",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#3b82f6",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Quick Weather",
+      "short_name": "Weather",
+      "description": "View current weather quickly",
+      "url": "/widget",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    }
+  ],
+  "widgets": [
+    {
+      "name": "WeatherWave Widget",
+      "description": "Current weather at a glance",
+      "tag": "weather-widget",
+      "ms_ac_template": "widgets/weather-widget.json",
+      "data": "widgets/weather-data.json",
+      "type": "application/json",
+      "screenshots": [
+        {
+          "src": "/widget-screenshot.png",
+          "sizes": "640x480",
+          "label": "Weather widget preview"
+        }
+      ],
+      "icons": [
+        {
+          "src": "/widget-icon.png",
+          "sizes": "256x256"
+        }
+      ],
+      "auth": false,
+      "update": 600
+    }
+  ]
+}
