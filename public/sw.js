@@ -43,6 +43,32 @@ self.addEventListener('sync', (event) => {
   }
 });
 
+// Push notification event
+self.addEventListener('push', (event) => {
+  const data = event.data ? event.data.json() : {};
+  const title = data.title || 'WeatherWave Notification';
+  const options = {
+    body: data.body || 'Stay updated with the latest weather insights.',
+    icon: '/icon-192.png',
+    badge: '/icon-192.png'
+  };
+  event.waitUntil(self.registration.showNotification(title, options));
+});
+
+// Periodic background sync
+self.addEventListener('periodicsync', (event) => {
+  if (event.tag === 'weather-sync') {
+    event.waitUntil(
+      fetch('/api/weather-update')
+        .then(response => response.json())
+        .then(data => {
+          console.log('Weather data synced:', data);
+        })
+        .catch(err => console.error('Weather sync failed:', err))
+    );
+  }
+});
+
 async function updateWeatherData() {
   // Update weather data in the background
   try {
