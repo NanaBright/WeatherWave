@@ -1,33 +1,30 @@
-import { Card } from '@/components/ui/card'
-import { Cloud, CloudRain, Sun } from 'lucide-react'
+import React from 'react';
+import { Card, CardContent } from '@/components/ui/card';
+import Icon from '@/components/ui/icon';
+import { icons } from 'lucide-react';
 
 interface WeatherCardProps {
-  temperature: number
-  condition: string
-  time: string
-  isNow?: boolean
+  day: string;
+  highTemp: number;
+  lowTemp: number;
+  iconName: keyof typeof icons;
+  className?: string;
 }
 
-export function WeatherCard({ temperature, condition, time, isNow }: WeatherCardProps) {
-  const getWeatherIcon = (condition: string) => {
-    switch (condition.toLowerCase()) {
-      case 'rain':
-        return <CloudRain className="h-6 w-6" />
-      case 'cloudy':
-        return <Cloud className="h-6 w-6" />
-      default:
-        return <Sun className="h-6 w-6" />
-    }
-  }
-
+const WeatherCard: React.FC<WeatherCardProps> = ({ day, highTemp, lowTemp, iconName, className }) => {
   return (
-    <Card className={`glass-card p-6 ${isNow ? 'bg-white/20' : 'bg-white/10'} backdrop-blur-xl border-white/20 rounded-xl`}>
-      <div className="flex flex-col items-center gap-2 text-white">
-        {getWeatherIcon(condition)}
-        <div className="text-2xl font-bold">{temperature}°</div>
-        <div className="text-sm text-white/70">{time}</div>
-      </div>
+    <Card variant="interactive" className={className}>
+      <CardContent className="flex flex-col items-center justify-center p-4 text-center">
+        <div className="text-lg font-semibold">{day}</div>
+        <Icon name={iconName} size={48} className="my-2 text-primary" />
+        <div className="flex gap-2">
+          <span className="font-bold">{highTemp}°</span>
+          <span className="text-muted-foreground">{lowTemp}°</span>
+        </div>
+      </CardContent>
     </Card>
-  )
-}
+  );
+};
+
+export default WeatherCard;
 
